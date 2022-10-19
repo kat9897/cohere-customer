@@ -16,15 +16,23 @@ TLDR: ArtificialIvan has raised $190 million in Series C funding.
 Passage: The National Weather Service announced Tuesday that a freeze warning is in effect for the Bay Area, with freezing temperatures expected in these areas overnight. Temperatures could fall into the mid-20s to low 30s in some areas. In anticipation of the hard freeze, the weather service warns people to take action now.
 
 TLDR:"""
+examples = [Example("The order came 5 days early", "positive"), 
+Example("The item exceeded my expectations", "positive"), 
+Example("I ordered more for my friends", "positive"), 
+Example("I would buy this again", "positive"), 
+Example("I would recommend this to others", "positive"), 
+Example("The package was damaged", "negative"), 
+Example("The order is 5 days late", "negative"), 
+Example("The order was incorrect", "negative"), 
+Example("I want to return my item", "negative"), 
+Example("The item\'s material feels low quality", "negative")]
 
-response = co.generate( 
-    model='xlarge', 
-    prompt = prompt,
-    max_tokens=40, 
-    temperature=0.8,
-    stop_sequences=["--"])
+inputs = ["This item was broken when it arrived", "This item broke after 3 weeks"]
 
-summary = response.generations[0].text
+response = co.classify( 
+    model='large', 
+    inputs=inputs,
+    examples=examples)
 
-print(summary)
+print('The confidence levels of the labels are: {}'.format(response.classifications))
 
